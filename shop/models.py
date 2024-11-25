@@ -23,7 +23,7 @@ class Product(models.Model):
 
 class Property(models.Model):
     owner = models.ForeignKey(User, related_name="properties", on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category,  related_name="properties")
     name = models.CharField(max_length=225)
 
     def __str__(self):

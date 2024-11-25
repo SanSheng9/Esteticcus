@@ -4,12 +4,6 @@ from general_service.serializers import PictureSerializer
 from .models import Category, Product, PropertyValue, Property
 
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = '__all__'
-
-
 class PropertyValueSerializer(serializers.ModelSerializer):
     property = serializers.StringRelatedField()
 
@@ -37,7 +31,22 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class PropertySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        fields = ('id', 'name')
+
+
+class PropertySerializerWithCategory(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Property
         fields = ('id', 'name', 'category', 'owner')
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    properties = PropertySerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = ('id', 'name', 'parent', 'owner', 'properties')
